@@ -1,12 +1,12 @@
 const crypto = require('crypto')
-
+const ALGORITHM = 'aes-256-ctr'
 const secret = process.env.secret
 const encrypt = (password) => {
     //initialisation vector 
     const iv = Buffer.from(crypto.randomBytes(16))
 
     //encryption algo | transform secret into a buffer | pass the vector
-    const cipher = crypto.createCipheriv('aes-256-ctr', Buffer.from(secret), iv)
+    const cipher = crypto.createCipheriv(ALGORITHM, Buffer.from(secret), iv)
 
     const encryptedPassword = Buffer.concat([cipher.update(password), cipher.final()])
 
@@ -18,10 +18,12 @@ const encrypt = (password) => {
 }
 
 const decrypt = (encryption) => {
-    const decipher = crypto.createDecipheriv('aes-256-ctr', Buffer.from(secret), Buffer.from(encryption.iv, 'hex'))
+    console.log("Enc object ", encryption)
+    console.log("From the decrypt function", encryption)
+    const decipher = crypto.createDecipheriv(ALGORITHM, Buffer.from(secret), Buffer.from(encryption.iv, 'hex'))
 
     const decryptedPassword = Buffer.concat([
-        decipher.update(Buffer.from(encryption.encPass, 'hex')), 
+        decipher.update(Buffer.from(encryption.password, 'hex')), 
         decipher.final()
     ])
 
