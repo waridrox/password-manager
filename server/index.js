@@ -4,8 +4,8 @@ const PORT = 3001
 const cors = require('cors')
 require('dotenv').config()
 
-const { db } = require('./config/db')
-const {encrypt, decrypt} = require('./EncryptionHandler')
+const { db } = require('./config/db.js')
+const { encrypt, decrypt } = require('./EncryptionHandler')
 
 app.use(cors())
 app.use(express.json())
@@ -41,6 +41,6 @@ app.post('/decryptpassword', (req, res) => {
     res.send(decrypt(req.body))
 })
 
-app.listen(PORT, () => {
+app.listen(process.env.PORT || PORT, () => {
     console.log(`Server is running on port ${PORT}`)
 })

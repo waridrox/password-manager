@@ -30,9 +30,11 @@ function App() {
   const [password, setPassword] = useState('')
   const [website, setWebsite] = useState('')
   const [passwordList, setPasswordList] = useState([])
+  // const prodURL = 'https://pass-manager-backend.herokuapp.com'
+  const devURL = 'http://localhost:3001'
 
   useEffect(() => {
-    Axios.get('http://localhost:3001/showpasswords').then((response) => {
+    Axios.get(`${devURL}/showpasswords`).then((response) => {
       console.log(response.data)
       setPasswordList(response.data)
     })
@@ -44,7 +46,7 @@ function App() {
       notifyfailure()
     }
     else {
-      Axios.post('http://localhost:3001/addpass', {
+      Axios.post(`${devURL}/addpass`, {
         password: password, 
         website: website
       })
@@ -57,7 +59,7 @@ function App() {
   }
 
   const decryptPassword = (encryption) => {
-    Axios.post('http://localhost:3001/decryptpassword', {
+    Axios.post(`${devURL}/decryptpassword`, {
       password: encryption.password,
       iv: encryption.iv,
       decryptState: false
@@ -75,7 +77,7 @@ function App() {
   }
 
   return (
-  <div className="App bg-indigo-200">
+  <div className="App">
     <div className="AddPass">
     <ToastContainer
     position="top-right"
@@ -122,7 +124,7 @@ function App() {
             console.log(val)
             return <div className="w-full mt-3 rounded-lg px-4 py-2 bg-black text-white cursor-pointer hover:bg-yellow-400 hover:text-black" key={val.id} 
             onMouseOut={() => {
-              Axios.get('http://localhost:3001/showpasswords').then((response) => {
+              Axios.get(`${devURL}/showpasswords`).then((response) => {
               console.log(response.data)
               setPasswordList(response.data)
             })}} 

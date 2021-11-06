@@ -7,4 +7,4 @@ const db = mysql.createConnection({
     database: 'PasswordManager'
 })
 
-module.exports = db;
+module.exports = { db };
